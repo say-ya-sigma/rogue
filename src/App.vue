@@ -7,16 +7,12 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import GridCanvas from './components/GridCanvas.vue'
-import {
-  initMatrix,
-  roomToMatrix,
-  divideRoomRecursive,
-  edgeToMatrix,
-  extractRoomsTouchEdge,
-  extractNeighbor,
-  addRandomThickness,
-} from './lib/rogue'
+import GridCanvas from '@/components/GridCanvas.vue'
+import { divideRoomRecursive } from '@/lib/rogue/divideRoom'
+import { addRandomThickness } from '@/lib/rogue/addThickness'
+import { initMatrix, edgeToMatrix, roomToMatrix } from '@/lib/rogue/canvasMatrix'
+import { extractRoomsTouchEdge } from '@/lib/rogue/extractRoomsTouchEdge'
+import { extractNeighbor } from '@/lib/rogue/extractNeighbor'
 
 export default defineComponent({
   name: 'App',
