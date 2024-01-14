@@ -1,22 +1,26 @@
 import type { Edge, Square } from "@/lib/rogue/types/base"
 
-export type RoomWithWallThickness = {
+export type Wall = {
+  top: number,
+  bottom: number,
+  right: number,
+  left: number
+}
+
+export type RoomWithWall = {
   uuid: string,
   outerSquare: Square,
-  topEdgeThickness: number,
-  bottomEdgeThickness: number,
-  rightEdgeThickness: number,
-  leftEdgeThickness: number
+  wall: Wall
 }
 
 export type RoomsTouchEdge = {
-  rooms: RoomWithWallThickness[],
+  rooms: RoomWithWall[],
   edge: Edge
 }
 
 export type NeighborRoomPair = {
-  room1: RoomWithWallThickness,
-  room2: RoomWithWallThickness,
+  room1: RoomWithWall,
+  room2: RoomWithWall,
   direction: 'horizontal' | 'vertical'
 }
 
