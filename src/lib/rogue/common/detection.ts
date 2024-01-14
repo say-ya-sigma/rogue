@@ -69,10 +69,11 @@ export const isContactRoomHorizontal = (edge: Edge, room: Room): boolean => {
     from: { x: edge.from.x, y: edge.from.y + 1 },
     to: { x: edge.to.x, y: edge.to.y + 1 }
   }
-  return isIncludeEdgeHorizontal(edge, room.topEdge) ||
-    isIncludeEdgeHorizontal(edge, room.bottomEdge) ||
-    isIncludeEdgeHorizontal(afterEdge, room.topEdge) ||
-    isIncludeEdgeHorizontal(afterEdge, room.bottomEdge)
+  const { top, bottom } = room.outerSquare
+  return isIncludeEdgeHorizontal(edge, top) ||
+    isIncludeEdgeHorizontal(edge, bottom) ||
+    isIncludeEdgeHorizontal(afterEdge, top) ||
+    isIncludeEdgeHorizontal(afterEdge, bottom)
 }
 
 export const isContactRoomVertical = (edge: Edge, room: Room): boolean => {
@@ -80,8 +81,9 @@ export const isContactRoomVertical = (edge: Edge, room: Room): boolean => {
     from: { x: edge.from.x + 1, y: edge.from.y },
     to: { x: edge.to.x + 1, y: edge.to.y }
   }
-  return isIncludeEdgeVertical(edge, room.leftEdge) ||
-    isIncludeEdgeVertical(edge, room.rightEdge) ||
-    isIncludeEdgeVertical(afterEdge, room.leftEdge) ||
-    isIncludeEdgeVertical(afterEdge, room.rightEdge)
+  const { left, right } = room.outerSquare
+  return isIncludeEdgeVertical(edge, left) ||
+    isIncludeEdgeVertical(edge, right) ||
+    isIncludeEdgeVertical(afterEdge, left) ||
+    isIncludeEdgeVertical(afterEdge, right)
 }

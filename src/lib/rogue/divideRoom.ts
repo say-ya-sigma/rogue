@@ -2,9 +2,10 @@ import type { Room, Edge } from "@/lib/rogue/types"
 import { createInitialRoom, createRoom } from "@/lib/rogue/createRoom"
 import { v4 } from "uuid"
 import { getEdgeLength } from "@/lib/rogue/computed/Edge"
+import { getArea } from "@/lib/rogue/computed/Room"
 
 export const divideRoomVertically = (room: Room): [Room, Room] => {
-  const { topEdge, bottomEdge, leftEdge, rightEdge } = room
+  const { top: topEdge, bottom: bottomEdge, right: rightEdge, left: leftEdge } = room.outerSquare
   const width = getEdgeLength(topEdge)
   const diff = Math.floor((Math.random() * width * 0.2) + width * 0.4)
   const x = topEdge.from.x + diff
@@ -21,8 +22,8 @@ export const divideRoomVertically = (room: Room): [Room, Room] => {
     to: { x, y: bottomEdge.to.y }
   }
   const room2LeftEdge: Edge = {
-    from: { x: x + 1, y: room.leftEdge.from.y },
-    to: { x: x + 1, y: room.leftEdge.to.y }
+    from: { x: x + 1, y: leftEdge.from.y },
+    to: { x: x + 1, y: leftEdge.to.y }
   }
   const room2TopEdge: Edge = {
     from: { x: x + 1, y: topEdge.from.y },
@@ -38,7 +39,7 @@ export const divideRoomVertically = (room: Room): [Room, Room] => {
 }
 
 export const divideRoomHorizontally = (room: Room): [Room, Room] => {
-  const { topEdge, bottomEdge, leftEdge, rightEdge } = room
+  const { top: topEdge, bottom: bottomEdge, right: rightEdge, left: leftEdge } = room.outerSquare
   const height = getEdgeLength(leftEdge)
   const diff = Math.floor((Math.random() * height * 0.2) + height * 0.4)
   const y = topEdge.from.y + diff
@@ -72,9 +73,9 @@ export const divideRoomHorizontally = (room: Room): [Room, Room] => {
 }
 
 export const divideRoom = (room: Room): [[Room, Room], Edge] => {
-  const direction = getEdgeLength(room.topEdge) > getEdgeLength(room.rightEdge) ? 'vertical' : 'horizontal'
+  const direction = getEdgeLength(room.outerSquare.top) > getEdgeLength(room.outerSquare.right) ? 'vertical' : 'horizontal'
   const [room1, room2] = direction === 'vertical' ? divideRoomVertically(room) : divideRoomHorizontally(room)
-  return [[room1, room2], direction === 'vertical' ? room1.rightEdge : room1.bottomEdge]
+  return [[room1, room2], direction === 'vertical' ? room1.outerSquare.right : room1.outerSquare.bottom]
 }
 
 export const divideRoomRecursive = (
@@ -92,7 +93,7 @@ export const divideRoomRecursive = (
     if (!room) {
       continue
     }
-    if (room.area < area) {
+    if (getArea(room) < area) {
       leafRooms.push(room)
       continue
     }

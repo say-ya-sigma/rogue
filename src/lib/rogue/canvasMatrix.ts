@@ -32,14 +32,14 @@ export const edgeToMatrix = (matrix: GridCanvasMatrix, edge: Edge): GridCanvasMa
 
 export const roomToMatrix = (matrix: GridCanvasMatrix, room: RoomWithWallThickness, withThickness: boolean = false): GridCanvasMatrix => {
   // roomのtopEdge, bottomEdge, leftEdge, rightEdgeを1にする
-  edgeToMatrix(matrix, room.topEdge)
-  edgeToMatrix(matrix, room.bottomEdge)
-  edgeToMatrix(matrix, room.rightEdge)
-  edgeToMatrix(matrix, room.leftEdge)
+  edgeToMatrix(matrix, room.outerSquare.top)
+  edgeToMatrix(matrix, room.outerSquare.bottom)
+  edgeToMatrix(matrix, room.outerSquare.right)
+  edgeToMatrix(matrix, room.outerSquare.left)
 
   if (withThickness) {
     // 内側をthickness分だけ描画する
-    const { topEdge, bottomEdge, leftEdge, rightEdge } = room
+    const { top: topEdge, bottom: bottomEdge, right: rightEdge, left: leftEdge } = room.outerSquare
     const topEdgeThickness = room.topEdgeThickness
     const bottomEdgeThickness = room.bottomEdgeThickness
     const leftEdgeThickness = room.leftEdgeThickness

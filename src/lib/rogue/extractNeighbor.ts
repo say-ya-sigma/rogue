@@ -1,23 +1,24 @@
-import type { Edge } from "@/lib/rogue/types/base"
-import type { NeighborRoomPair, RoomWithWallThickness, RoomsTouchEdge } from "@/lib/rogue/types/intermediate"
+import type { Edge, NeighborRoomPair, RoomWithWallThickness, RoomsTouchEdge } from "@/lib/rogue/types"
 import { detectDirection, isTouchEdgeHorizontal, isTouchEdgeVertical } from "@/lib/rogue/common/detection"
+import { getCenter } from "@/lib/rogue/computed/Room"
 
 export const extractNeighborHorizontal = (roomsTouchEdge: RoomsTouchEdge): NeighborRoomPair[] => {
   const { rooms, edge } = roomsTouchEdge
-  const upperRooms: RoomWithWallThickness[] = rooms.filter(room => room.center.y < edge.from.y)
-  const lowerRooms: RoomWithWallThickness[] = rooms.filter(room => room.center.y > edge.from.y)
+  const upperRooms: RoomWithWallThickness[] = rooms.filter(room => getCenter(room).y < edge.from.y)
+  const lowerRooms: RoomWithWallThickness[] = rooms.filter(room => getCenter(room).y > edge.from.y)
   const neighborRoomPairs: NeighborRoomPair[] = []
 
   for (let i = 0; i < upperRooms.length; i++) {
     const upperRoom = upperRooms[i]
+    const { bottom, top } = upperRoom.outerSquare
     const upperRoomAfterEdge: Edge = {
-      from: { x: upperRoom.bottomEdge.from.x, y: upperRoom.bottomEdge.from.y + 1 },
-      to: { x: upperRoom.bottomEdge.to.x, y: upperRoom.bottomEdge.to.y + 1 }
+      from: { x: bottom.from.x, y: bottom.from.y + 1 },
+      to: { x: bottom.to.x, y: bottom.to.y + 1 }
     }
     for (let j = 0; j < lowerRooms.length; j++) {
       const lowerRoom = lowerRooms[j]
       if (
-        isTouchEdgeHorizontal(upperRoomAfterEdge, lowerRoom.topEdge, 3)
+        isTouchEdgeHorizontal(upperRoomAfterEdge, top, 3)
       ) {
         neighborRoomPairs.push({ room1: upperRoom, room2: lowerRoom, direction: 'horizontal' })
       }
@@ -29,20 +30,21 @@ export const extractNeighborHorizontal = (roomsTouchEdge: RoomsTouchEdge): Neigh
 
 export const extractNeighborVertical = (roomsTouchEdge: RoomsTouchEdge): NeighborRoomPair[] => {
   const { rooms, edge } = roomsTouchEdge
-  const leftRooms: RoomWithWallThickness[] = rooms.filter(room => room.center.x < edge.from.x)
-  const rightRooms: RoomWithWallThickness[] = rooms.filter(room => room.center.x > edge.from.x)
+  const leftRooms: RoomWithWallThickness[] = rooms.filter(room => getCenter(room).x < edge.from.x)
+  const rightRooms: RoomWithWallThickness[] = rooms.filter(room => getCenter(room).x > edge.from.x)
   const neighborRoomPairs: NeighborRoomPair[] = []
 
   for (let i = 0; i < leftRooms.length; i++) {
     const leftRoom = leftRooms[i]
+    const { right, left } = leftRoom.outerSquare
     const leftRoomAfterEdge: Edge = {
-      from: { x: leftRoom.rightEdge.from.x + 1, y: leftRoom.rightEdge.from.y },
-      to: { x: leftRoom.rightEdge.to.x + 1, y: leftRoom.rightEdge.to.y }
+      from: { x: right.from.x + 1, y: right.from.y },
+      to: { x: right.to.x + 1, y: right.to.y }
     }
     for (let j = 0; j < rightRooms.length; j++) {
       const rightRoom = rightRooms[j]
       if (
-        isTouchEdgeVertical(leftRoomAfterEdge, rightRoom.leftEdge, 3)
+        isTouchEdgeVertical(leftRoomAfterEdge, left, 3)
       ) {
         neighborRoomPairs.push({ room1: leftRoom, room2: rightRoom, direction: 'vertical' })
       }
