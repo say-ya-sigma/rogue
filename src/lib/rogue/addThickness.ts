@@ -1,16 +1,17 @@
-import type { Room } from "@/lib/rogue/types/base"
-import type { RoomWithWallThickness } from "@/lib/rogue/types/intermediate"
+import type { Room, RoomWithWall } from "@/lib/rogue/types"
 
-export const addRandomThickness = (room: Room): RoomWithWallThickness => {
-  const topEdgeThickness = Math.floor(Math.random() * 3) + 1
-  const bottomEdgeThickness = Math.floor(Math.random() * 3) + 1
-  const rightEdgeThickness = Math.floor(Math.random() * 3) + 1
-  const leftEdgeThickness = Math.floor(Math.random() * 3) + 1
+export const addRandomThickness = (room: Room): RoomWithWall => {
+  const top = Math.floor(Math.random() * 3) + 1
+  const bottom = Math.floor(Math.random() * 3) + 1
+  const right = Math.floor(Math.random() * 3) + 1
+  const left = Math.floor(Math.random() * 3) + 1
   return {
     ...room,
-    topEdgeThickness,
-    bottomEdgeThickness,
-    rightEdgeThickness,
-    leftEdgeThickness
+    wall: {
+      top,
+      bottom,
+      right,
+      left
+    }
   }
 }

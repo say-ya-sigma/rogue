@@ -1,7 +1,7 @@
 import type {
   Edge,
   GridCanvasMatrix,
-  RoomWithWallThickness
+  RoomWithWall
 } from "@/lib/rogue/types"
 
 export const initMatrix = (width: number, height: number) => {
@@ -30,7 +30,7 @@ export const edgeToMatrix = (matrix: GridCanvasMatrix, edge: Edge): GridCanvasMa
   return matrix
 }
 
-export const roomToMatrix = (matrix: GridCanvasMatrix, room: RoomWithWallThickness, withThickness: boolean = false): GridCanvasMatrix => {
+export const roomToMatrix = (matrix: GridCanvasMatrix, room: RoomWithWall, withThickness: boolean = false): GridCanvasMatrix => {
   // roomのtopEdge, bottomEdge, leftEdge, rightEdgeを1にする
   edgeToMatrix(matrix, room.outerSquare.top)
   edgeToMatrix(matrix, room.outerSquare.bottom)
@@ -40,10 +40,7 @@ export const roomToMatrix = (matrix: GridCanvasMatrix, room: RoomWithWallThickne
   if (withThickness) {
     // 内側をthickness分だけ描画する
     const { top: topEdge, bottom: bottomEdge, right: rightEdge, left: leftEdge } = room.outerSquare
-    const topEdgeThickness = room.topEdgeThickness
-    const bottomEdgeThickness = room.bottomEdgeThickness
-    const leftEdgeThickness = room.leftEdgeThickness
-    const rightEdgeThickness = room.rightEdgeThickness
+    const { top: topEdgeThickness, bottom: bottomEdgeThickness, right: rightEdgeThickness, left: leftEdgeThickness } = room.wall
     for (let i = 1; i <= topEdgeThickness; i++) {
       edgeToMatrix(matrix, {
         from: { x: topEdge.from.x, y: topEdge.from.y + i },

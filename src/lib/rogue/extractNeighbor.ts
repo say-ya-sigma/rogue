@@ -1,11 +1,11 @@
-import type { Edge, NeighborRoomPair, RoomWithWallThickness, RoomsTouchEdge } from "@/lib/rogue/types"
+import type { Edge, NeighborRoomPair, RoomWithWall, RoomsTouchEdge } from "@/lib/rogue/types"
 import { detectDirection, isTouchEdgeHorizontal, isTouchEdgeVertical } from "@/lib/rogue/common/detection"
 import { getCenter } from "@/lib/rogue/computed/Room"
 
 export const extractNeighborHorizontal = (roomsTouchEdge: RoomsTouchEdge): NeighborRoomPair[] => {
   const { rooms, edge } = roomsTouchEdge
-  const upperRooms: RoomWithWallThickness[] = rooms.filter(room => getCenter(room).y < edge.from.y)
-  const lowerRooms: RoomWithWallThickness[] = rooms.filter(room => getCenter(room).y > edge.from.y)
+  const upperRooms: RoomWithWall[] = rooms.filter(room => getCenter(room).y < edge.from.y)
+  const lowerRooms: RoomWithWall[] = rooms.filter(room => getCenter(room).y > edge.from.y)
   const neighborRoomPairs: NeighborRoomPair[] = []
 
   for (let i = 0; i < upperRooms.length; i++) {
@@ -30,8 +30,8 @@ export const extractNeighborHorizontal = (roomsTouchEdge: RoomsTouchEdge): Neigh
 
 export const extractNeighborVertical = (roomsTouchEdge: RoomsTouchEdge): NeighborRoomPair[] => {
   const { rooms, edge } = roomsTouchEdge
-  const leftRooms: RoomWithWallThickness[] = rooms.filter(room => getCenter(room).x < edge.from.x)
-  const rightRooms: RoomWithWallThickness[] = rooms.filter(room => getCenter(room).x > edge.from.x)
+  const leftRooms: RoomWithWall[] = rooms.filter(room => getCenter(room).x < edge.from.x)
+  const rightRooms: RoomWithWall[] = rooms.filter(room => getCenter(room).x > edge.from.x)
   const neighborRoomPairs: NeighborRoomPair[] = []
 
   for (let i = 0; i < leftRooms.length; i++) {
