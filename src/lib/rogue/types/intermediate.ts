@@ -1,15 +1,8 @@
-import type { Coordinate, Edge } from "@/lib/rogue/types/base"
+import type { Edge, Square } from "@/lib/rogue/types/base"
 
 export type RoomWithWallThickness = {
   uuid: string,
-  center: Coordinate,
-  height: number,
-  width: number,
-  area: number,
-  topEdge: Edge,
-  bottomEdge: Edge,
-  rightEdge: Edge,
-  leftEdge: Edge,
+  outerSquare: Square,
   topEdgeThickness: number,
   bottomEdgeThickness: number,
   rightEdgeThickness: number,
