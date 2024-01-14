@@ -10,16 +10,16 @@ export type Edge = {
 
 export type EdgeDirection = 'horizontal' | 'vertical'
 
+export type Square = {
+  top: Edge,
+  bottom: Edge,
+  right: Edge,
+  left: Edge
+}
+
 export type Room = {
   uuid: string,
-  center: Coordinate,
-  height: number,
-  width: number,
-  area: number,
-  topEdge: Edge,
-  bottomEdge: Edge,
-  rightEdge: Edge,
-  leftEdge: Edge
+  outerSquare: Square
 }
 
 export type Corridor = {
