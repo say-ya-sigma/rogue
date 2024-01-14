@@ -1,4 +1,8 @@
-import type { Room, Edge } from "@/lib/rogue/types/base"
+import type {
+  Room,
+  Edge
+} from "@/lib/rogue/types"
+import { getEdgeLength } from "@/lib/rogue/computed/Edge"
 
 export const createInitialRoom = (uuid: string, width: number, height: number): Room => {
   const center = { x: Math.floor(width / 2), y: Math.floor(height / 2) }
@@ -10,8 +14,8 @@ export const createInitialRoom = (uuid: string, width: number, height: number): 
 }
 
 export const createRoom = (uuid: string, topEdge: Edge, bottomEdge: Edge, rightEdge: Edge, leftEdge: Edge): Room => {
-  const width = topEdge.edgeLength
-  const height = leftEdge.edgeLength
+  const width = getEdgeLength(topEdge)
+  const height = getEdgeLength(leftEdge)
   const center = {
     x: topEdge.from.x + Math.floor(width / 2),
     y: topEdge.from.y + Math.floor(height / 2)

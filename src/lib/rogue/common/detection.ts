@@ -67,8 +67,7 @@ export const isIncludeEdgeVertical = (bigEdge: Edge, smallEdge: Edge): boolean =
 export const isContactRoomHorizontal = (edge: Edge, room: Room): boolean => {
   const afterEdge: Edge = {
     from: { x: edge.from.x, y: edge.from.y + 1 },
-    to: { x: edge.to.x, y: edge.to.y + 1 },
-    edgeLength: edge.edgeLength
+    to: { x: edge.to.x, y: edge.to.y + 1 }
   }
   return isIncludeEdgeHorizontal(edge, room.topEdge) ||
     isIncludeEdgeHorizontal(edge, room.bottomEdge) ||
@@ -79,8 +78,7 @@ export const isContactRoomHorizontal = (edge: Edge, room: Room): boolean => {
 export const isContactRoomVertical = (edge: Edge, room: Room): boolean => {
   const afterEdge: Edge = {
     from: { x: edge.from.x + 1, y: edge.from.y },
-    to: { x: edge.to.x + 1, y: edge.to.y },
-    edgeLength: edge.edgeLength
+    to: { x: edge.to.x + 1, y: edge.to.y }
   }
   return isIncludeEdgeVertical(edge, room.leftEdge) ||
     isIncludeEdgeVertical(edge, room.rightEdge) ||

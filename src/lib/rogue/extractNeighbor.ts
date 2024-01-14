@@ -12,8 +12,7 @@ export const extractNeighborHorizontal = (roomsTouchEdge: RoomsTouchEdge): Neigh
     const upperRoom = upperRooms[i]
     const upperRoomAfterEdge: Edge = {
       from: { x: upperRoom.bottomEdge.from.x, y: upperRoom.bottomEdge.from.y + 1 },
-      to: { x: upperRoom.bottomEdge.to.x, y: upperRoom.bottomEdge.to.y + 1 },
-      edgeLength: upperRoom.bottomEdge.edgeLength
+      to: { x: upperRoom.bottomEdge.to.x, y: upperRoom.bottomEdge.to.y + 1 }
     }
     for (let j = 0; j < lowerRooms.length; j++) {
       const lowerRoom = lowerRooms[j]
@@ -38,8 +37,7 @@ export const extractNeighborVertical = (roomsTouchEdge: RoomsTouchEdge): Neighbo
     const leftRoom = leftRooms[i]
     const leftRoomAfterEdge: Edge = {
       from: { x: leftRoom.rightEdge.from.x + 1, y: leftRoom.rightEdge.from.y },
-      to: { x: leftRoom.rightEdge.to.x + 1, y: leftRoom.rightEdge.to.y },
-      edgeLength: leftRoom.rightEdge.edgeLength
+      to: { x: leftRoom.rightEdge.to.x + 1, y: leftRoom.rightEdge.to.y }
     }
     for (let j = 0; j < rightRooms.length; j++) {
       const rightRoom = rightRooms[j]
