@@ -6,8 +6,9 @@ export type Coordinate = {
 export type Edge = {
   from: Coordinate,
   to: Coordinate,
-  edgeLength: number
 }
+
+export type EdgeDirection = 'horizontal' | 'vertical'
 
 export type Room = {
   uuid: string,
