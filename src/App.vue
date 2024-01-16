@@ -10,9 +10,16 @@ import { defineComponent, ref } from 'vue'
 import GridCanvas from '@/components/GridCanvas.vue'
 import { divideRoomRecursive } from '@/lib/rogue/divideRoom'
 import { addRandomThickness } from '@/lib/rogue/addThickness'
-import { initMatrix, edgeToMatrix, roomToMatrix } from '@/lib/rogue/canvasMatrix'
+import {
+  initMatrix,
+  edgeToMatrix,
+  roomToMatrix,
+  roomToMatrixWithInnerSquare
+} from '@/lib/rogue/canvasMatrix'
+import { getRoomWithInnerSquare } from '@/lib/rogue/computed/Room/WithWall'
 import { extractRoomsTouchEdge } from '@/lib/rogue/extractRoomsTouchEdge'
 import { extractNeighbor } from '@/lib/rogue/extractNeighbor'
+import type { GridCanvasMatrix } from './lib/rogue/types/canvas'
 
 export default defineComponent({
   name: 'App',
@@ -21,23 +28,24 @@ export default defineComponent({
   },
   setup() {
     const { rooms, edges } = divideRoomRecursive(1000, 160, 100)
-    const roomsWithThickness = rooms.map(addRandomThickness)
-    const matrix = ref<number[][]>(roomsWithThickness.reduce((matrix, room) => {
-      return roomToMatrix(matrix, room, true)
+    const roomsWithWall = rooms.map(addRandomThickness)
+    const roomsWithInnerSquare = roomsWithWall.map(getRoomWithInnerSquare)
+    const matrix = ref<GridCanvasMatrix>(roomsWithInnerSquare.reduce((matrix, room) => {
+      return roomToMatrixWithInnerSquare(matrix, room)
     }, initMatrix(160,100)))
 
-    const edgeMatrix = ref<number[][]>(edges.reduce((matrix, edge) => {
+    const edgeMatrix = ref<GridCanvasMatrix>(edges.reduce((matrix, edge) => {
       return edgeToMatrix(matrix, edge)
     }, initMatrix(160,100)))
 
-    const roomsTouchEdge = extractRoomsTouchEdge(roomsWithThickness, edges[0])
+    const roomsTouchEdge = extractRoomsTouchEdge(roomsWithWall, edges[0])
 
-    const roomsTouchEdgeMatrix = ref<number[][]>(roomsTouchEdge.rooms.reduce((matrix, room) => {
+    const roomsTouchEdgeMatrix = ref<GridCanvasMatrix>(roomsTouchEdge.rooms.reduce((matrix, room) => {
       return roomToMatrix(matrix, room)
     }, initMatrix(160,100)))
 
     const neighbor = extractNeighbor(roomsTouchEdge)
-    const roomsTouchEdgeNeighborMatrix = ref<number[][][]>(neighbor.map(({ room1, room2 }) => [room1, room2].reduce((matrix, room) => {
+    const roomsTouchEdgeNeighborMatrix = ref<GridCanvasMatrix[]>(neighbor.map(({ room1, room2 }) => [room1, room2].reduce((matrix, room) => {
       return roomToMatrix(matrix, room)
     }, initMatrix(160,100))))
 
