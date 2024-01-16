@@ -30,10 +30,15 @@ export default defineComponent({
       canvas.width = width
       canvas.height = height
 
+      const valueToColor = (value: number) => {
+        if (value === 1) { return 'black' }
+        if (value === 2) { return 'red' }
+        return 'white'
+      }
       // matrixの値に応じて色を塗る
       matrix.forEach((row, y) => {
         row.forEach((value, x) => {
-          ctx.fillStyle = value ? 'black' : 'white'
+          ctx.fillStyle = valueToColor(value)
           ctx.fillRect(x * unitSize, y * unitSize, unitSize, unitSize)
         })
       })
