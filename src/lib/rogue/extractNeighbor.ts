@@ -36,13 +36,14 @@ export const extractNeighborVertical = <T extends Room>(roomsTouchEdge: RoomsTou
 
   for (let i = 0; i < leftRooms.length; i++) {
     const leftRoom = leftRooms[i]
-    const { right, left } = leftRoom.outerSquare
+    const { right } = leftRoom.outerSquare
     const leftRoomAfterEdge: Edge = {
       from: { x: right.from.x + 1, y: right.from.y },
       to: { x: right.to.x + 1, y: right.to.y }
     }
     for (let j = 0; j < rightRooms.length; j++) {
       const rightRoom = rightRooms[j]
+      const { left } = rightRoom.outerSquare
       if (
         isTouchEdgeVertical(leftRoomAfterEdge, left, 3)
       ) {
