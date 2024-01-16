@@ -1,4 +1,4 @@
-import type { Edge, Square } from "@/lib/rogue/types/base"
+import type { Edge, Room, Square } from "@/lib/rogue/types/base"
 
 export type Wall = {
   top: number,
@@ -19,14 +19,14 @@ export type RoomWithInnerSquare = {
   innerSquare: Square
 }
 
-export type RoomsTouchEdge = {
-  rooms: RoomWithWall[],
+export type RoomsTouchEdge<T extends Room> = {
+  rooms: T[],
   edge: Edge
 }
 
-export type NeighborRoomPair = {
-  room1: RoomWithWall,
-  room2: RoomWithWall,
+export type NeighborRoomPair<T extends Room> = {
+  room1: T,
+  room2: T,
   direction: 'horizontal' | 'vertical'
 }
 
