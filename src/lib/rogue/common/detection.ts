@@ -10,16 +10,23 @@ export const isTouchEdgeHorizontal = (edge1: Edge, edge2: Edge, offset: number =
     return false
   }
 
+  let offsetEdge1: Edge = edge1
+  if (offset !== 0) {
+    offsetEdge1 = {
+      from: { x: edge1.from.x + offset, y: edge1.from.y },
+      to: { x: edge1.to.x - offset, y: edge1.to.y }
+    }
+  }
   // 線分が包含関係にある
-  const isInclude = isIncludeEdgeHorizontal(edge1, edge2)
-  const isIncluded = isIncludeEdgeHorizontal(edge2, edge1)
+  const isInclude = isIncludeEdgeHorizontal(offsetEdge1, edge2)
+  const isIncluded = isIncludeEdgeHorizontal(edge2, offsetEdge1)
   if (isInclude || isIncluded) {
     return true
   }
 
   // 始点か終点のどちらかを含む
-  const isTouchFrom = edge1.from.x + offset <= edge2.from.x && edge2.from.x <= edge1.to.x - offset
-  const isTouchTo = edge1.from.x + offset <= edge2.to.x && edge2.to.x <= edge1.to.x - offset
+  const isTouchFrom = offsetEdge1.from.x <= edge2.from.x && edge2.from.x <= offsetEdge1.to.x
+  const isTouchTo = offsetEdge1.from.x <= edge2.to.x && edge2.to.x <= offsetEdge1.to.x
   return isTouchFrom || isTouchTo
 }
 
@@ -29,16 +36,23 @@ export const isTouchEdgeVertical = (edge1: Edge, edge2: Edge, offset: number = 0
     return false
   }
 
+  let offsetEdge1: Edge = edge1
+  if (offset !== 0) {
+    offsetEdge1 = {
+      from: { x: edge1.from.x, y: edge1.from.y + offset },
+      to: { x: edge1.to.x, y: edge1.to.y - offset }
+    }
+  }
   // 線分が包含関係にある
-  const isInclude = isIncludeEdgeVertical(edge1, edge2)
-  const isIncluded = isIncludeEdgeVertical(edge2, edge1)
+  const isInclude = isIncludeEdgeVertical(offsetEdge1, edge2)
+  const isIncluded = isIncludeEdgeVertical(edge2, offsetEdge1)
   if (isInclude || isIncluded) {
     return true
   }
 
   // 始点か終点のどちらかを含む
-  const isTouchFrom = edge1.from.y + offset <= edge2.from.y && edge2.from.y <= edge1.to.y - offset
-  const isTouchTo = edge1.from.y + offset <= edge2.to.y && edge2.to.y <= edge1.to.y - offset
+  const isTouchFrom = offsetEdge1.from.y <= edge2.from.y && edge2.from.y <= offsetEdge1.to.y
+  const isTouchTo = offsetEdge1.from.y <= edge2.to.y && edge2.to.y <= offsetEdge1.to.y
   return isTouchFrom || isTouchTo
 }
 
