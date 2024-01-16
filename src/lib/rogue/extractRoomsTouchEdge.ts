@@ -1,15 +1,15 @@
-import type { Edge } from "@/lib/rogue/types/base"
-import type { RoomWithWall, RoomsTouchEdge } from "@/lib/rogue/types/intermediate"
+import type { Edge, Room } from "@/lib/rogue/types"
+import type { RoomsTouchEdge } from "@/lib/rogue/types/intermediate"
 import {
   detectDirection,
   isContactRoomHorizontal,
   isContactRoomVertical
 } from "@/lib/rogue/common/detection"
 
-export const extractRoomsTouchEdge = (rooms: RoomWithWall[], edge: Edge): RoomsTouchEdge => {
+export const extractRoomsTouchEdge = <T extends Room>(rooms: T[], edge: Edge): RoomsTouchEdge<T> => {
   const direction = detectDirection(edge)
 
-  const roomsTouchEdge: RoomWithWall[] = []
+  const roomsTouchEdge: T[] = []
   if (direction === 'horizontal') {
     rooms.forEach(room => {
       if (isContactRoomHorizontal(edge, room)) {
