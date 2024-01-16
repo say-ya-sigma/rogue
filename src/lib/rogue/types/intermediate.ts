@@ -13,6 +13,12 @@ export type RoomWithWall = {
   wall: Wall
 }
 
+export type RoomWithInnerSquare = {
+  uuid: string,
+  outerSquare: Square,
+  innerSquare: Square
+}
+
 export type RoomsTouchEdge = {
   rooms: RoomWithWall[],
   edge: Edge
