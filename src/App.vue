@@ -1,5 +1,6 @@
 <template>
   <GridCanvas :matrix="matrix" />
+  <GridCanvas :matrix="roomsTouchEdgeMatrix" />
   <!-- <div v-for="(neighbor, index) in roomsTouchEdgeNeighborMatrix" :key="index">
     <GridCanvas :matrix="neighbor" />
   </div> -->
@@ -38,10 +39,10 @@ export default defineComponent({
       return edgeToMatrix(matrix, edge)
     }, initMatrix(160,100)))
 
-    const roomsTouchEdge = extractRoomsTouchEdge(roomsWithWall, edges[0])
+    const roomsTouchEdge = extractRoomsTouchEdge(roomsWithInnerSquare, edges[0])
 
     const roomsTouchEdgeMatrix = ref<GridCanvasMatrix>(roomsTouchEdge.rooms.reduce((matrix, room) => {
-      return roomToMatrix(matrix, room)
+      return roomToMatrixWithInnerSquare(matrix, room)
     }, initMatrix(160,100)))
 
     const neighbor = extractNeighbor(roomsTouchEdge)
