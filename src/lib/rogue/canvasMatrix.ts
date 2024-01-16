@@ -18,26 +18,26 @@ export const initMatrix = (width: number, height: number) => {
   return matrix
 }
 
-export const edgeToMatrix = (matrix: GridCanvasMatrix, edge: Edge): GridCanvasMatrix => {
+export const edgeToMatrix = (matrix: GridCanvasMatrix, edge: Edge, cellType: number = 1): GridCanvasMatrix => {
   if (edge.from.x === edge.to.x) {
     // vertical
     for (let y = edge.from.y; y <= edge.to.y; y++) {
-      matrix[y][edge.from.x] = 1
+      matrix[y][edge.from.x] = cellType
     }
   } else {
     // horizontal
     for (let x = edge.from.x; x <= edge.to.x; x++) {
-      matrix[edge.from.y][x] = 1
+      matrix[edge.from.y][x] = cellType
     }
   }
   return matrix
 }
 
-export const squareToMatrix = (matrix: GridCanvasMatrix, square: Square): GridCanvasMatrix => {
-  edgeToMatrix(matrix, square.top)
-  edgeToMatrix(matrix, square.bottom)
-  edgeToMatrix(matrix, square.right)
-  edgeToMatrix(matrix, square.left)
+export const squareToMatrix = (matrix: GridCanvasMatrix, square: Square, cellType: number = 1): GridCanvasMatrix => {
+  edgeToMatrix(matrix, square.top, cellType)
+  edgeToMatrix(matrix, square.bottom, cellType)
+  edgeToMatrix(matrix, square.right, cellType)
+  edgeToMatrix(matrix, square.left, cellType)
   return matrix
 }
 
@@ -81,6 +81,6 @@ export const roomToMatrixWithWall = (matrix: GridCanvasMatrix, room: RoomWithWal
 
 export const roomToMatrixWithInnerSquare = (matrix: GridCanvasMatrix, room: RoomWithInnerSquare): GridCanvasMatrix => {
   squareToMatrix(matrix, room.outerSquare)
-  squareToMatrix(matrix, room.innerSquare)
+  squareToMatrix(matrix, room.innerSquare, 2)
   return matrix
 }
