@@ -1,12 +1,12 @@
-import type { Edge, NeighborRoomPair, RoomWithWall, RoomsTouchEdge } from "@/lib/rogue/types"
+import type { Edge, NeighborRoomPair, Room, RoomsTouchEdge } from "@/lib/rogue/types"
 import { detectDirection, isTouchEdgeHorizontal, isTouchEdgeVertical } from "@/lib/rogue/common/detection"
 import { getCenter } from "@/lib/rogue/computed/Room"
 
-export const extractNeighborHorizontal = (roomsTouchEdge: RoomsTouchEdge): NeighborRoomPair[] => {
+export const extractNeighborHorizontal = <T extends Room>(roomsTouchEdge: RoomsTouchEdge<T>): NeighborRoomPair<T>[] => {
   const { rooms, edge } = roomsTouchEdge
-  const upperRooms: RoomWithWall[] = rooms.filter(room => getCenter(room).y < edge.from.y)
-  const lowerRooms: RoomWithWall[] = rooms.filter(room => getCenter(room).y > edge.from.y)
-  const neighborRoomPairs: NeighborRoomPair[] = []
+  const upperRooms: T[] = rooms.filter(room => getCenter(room).y < edge.from.y)
+  const lowerRooms: T[] = rooms.filter(room => getCenter(room).y > edge.from.y)
+  const neighborRoomPairs: NeighborRoomPair<T>[] = []
 
   for (let i = 0; i < upperRooms.length; i++) {
     const upperRoom = upperRooms[i]
@@ -28,11 +28,11 @@ export const extractNeighborHorizontal = (roomsTouchEdge: RoomsTouchEdge): Neigh
   return neighborRoomPairs
 }
 
-export const extractNeighborVertical = (roomsTouchEdge: RoomsTouchEdge): NeighborRoomPair[] => {
+export const extractNeighborVertical = <T extends Room>(roomsTouchEdge: RoomsTouchEdge<T>): NeighborRoomPair<T>[] => {
   const { rooms, edge } = roomsTouchEdge
-  const leftRooms: RoomWithWall[] = rooms.filter(room => getCenter(room).x < edge.from.x)
-  const rightRooms: RoomWithWall[] = rooms.filter(room => getCenter(room).x > edge.from.x)
-  const neighborRoomPairs: NeighborRoomPair[] = []
+  const leftRooms: T[] = rooms.filter(room => getCenter(room).x < edge.from.x)
+  const rightRooms: T[] = rooms.filter(room => getCenter(room).x > edge.from.x)
+  const neighborRoomPairs: NeighborRoomPair<T>[] = []
 
   for (let i = 0; i < leftRooms.length; i++) {
     const leftRoom = leftRooms[i]
@@ -54,7 +54,7 @@ export const extractNeighborVertical = (roomsTouchEdge: RoomsTouchEdge): Neighbo
   return neighborRoomPairs
 }
 
-export const extractNeighbor = (roomsTouchEdge: RoomsTouchEdge): NeighborRoomPair[] => {
+export const extractNeighbor = <T extends Room>(roomsTouchEdge: RoomsTouchEdge<T>): NeighborRoomPair<T>[] => {
   const direction = detectDirection(roomsTouchEdge.edge)
   return direction === 'horizontal'
     ? extractNeighborHorizontal(roomsTouchEdge)
